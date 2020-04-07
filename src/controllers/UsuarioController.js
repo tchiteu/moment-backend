@@ -24,6 +24,6 @@ module.exports = {
       codigo
     });
 
-    return res.json({ senhaHash });
+    return res.json({ codigo });
   }
 }
