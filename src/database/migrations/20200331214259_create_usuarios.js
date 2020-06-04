@@ -5,10 +5,9 @@ exports.up = function(knex, Promise) {
 		table.boolean('verificado').notNull().defaultTo(false);
 		table.string('nome').notNull();
 		table.string('sobrenome').notNull();
-    	table.string('email').notNull();
-    	table.string('cidade').notNull();
-		table.string('uf', 2).notNull();
+		table.string('email').notNull();
 		table.string('senha').notNull();
+		table.string('pais').notNull();
 		table.string('codigo', 8).notNull();
 
 		table.dateTime('created_at').defaultTo(knex.fn.now());
