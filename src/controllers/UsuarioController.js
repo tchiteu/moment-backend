@@ -4,7 +4,7 @@ const bcrypt = require ('bcrypt')
 
 module.exports = {
   async cadastro(req, res) {
-    const { nome, sobrenome, email, pais, senha } = req.body;
+    const { nome, email, pais, senha } = req.body;
     
     const id = crypto.randomBytes(4).toString('HEX');
     const codigo = Math.floor(Math.random() * 9999);
@@ -16,7 +16,6 @@ module.exports = {
     await connection('usuarios').insert({
       id,
       nome,
-      sobrenome,
       email,
       pais,
       senha: senhaHash,
