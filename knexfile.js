@@ -1,8 +1,14 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 module.exports = {
   development: {
-    client: 'sqlite3',
+    client: 'mysql',
     connection: {
-      filename: './src/database/moment.sqlite'
+      host : process.env.DB_HOST,
+      user : process.env.DB_USER,
+      password : process.env.DB_PASSWORD,
+      database : process.env.DB_DATABASE
     },
     migrations: {
       directory: './src/database/migrations'
