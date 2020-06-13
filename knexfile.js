@@ -19,11 +19,10 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      host: '',
-      database: '',
-      user:     '',
-      password: '',
-      filename: './src/database/db_moment.mysql'
+      host: process.env.DB_HOST,
+      user : process.env.DB_USER,
+      password : process.env.DB_PASSWORD,
+      database : process.env.DB_DATABASE,
     },
     migrations: {
       directory: './src/database/migrations'
