@@ -41,7 +41,10 @@ module.exports = {
   },
 
   async logout(req, res) {
-    res.status(200).send({ message: "Deslogado com sucesso!", token: null });
+    res.status(200).json({
+      message: "Deslogado com sucesso!", 
+      token: null
+    });
   },
 
   async verificaToken(req, res, next) {
@@ -50,7 +53,10 @@ module.exports = {
     if(!token) return res.status(401).send({ message: 'No token provided.' });
 
     jwt.verify(token, process.env.SECRET, function(err, decoded) {
-      if(err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+      if(err) return res.status(500).json({
+        auth: false,
+        message: 'Falha ao autenticar o token.'
+      });
       
       req.userId = decoded.id;
       next();
