@@ -6,7 +6,23 @@ module.exports = {
   async cadastro(req, res) {
     const { nome, usuario, email, pais, senha } = req.body;
 
-    db('usuarios').select('id').where('email', email).orWhere('');
+    // Verifica se existe
+    const resultado = await db('usuarios').select('usuario', 'email')
+      .where('email', email)
+      .orWhere('usuario', usuario);
+
+    if(resultado[0] && resultado[0].usuario == usuario) {
+      return res.status(409).json({
+        message: "Nome de usuário já existe",
+        error: true
+      }); 
+    } 
+    else if(resultado[0] && resultado[0].email == email) {
+      return res.status(409).json({
+        message: "E-mail já cadastrado",
+        error: true
+      }); 
+    }
     
     const id = crypto.randomBytes(4).toString('HEX');
     const codigo = Math.floor(Math.random() * 9999);
