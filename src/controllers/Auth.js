@@ -1,13 +1,17 @@
 const jwt = require('jsonwebtoken');
+const db = require('../database/connection');
 
 module.exports = {
   async login(req, res) {
     const { email, senha } = req.body; 
 
-    //verificação do login
     if(email && senha) {
-      const id = 1; // id do usuario logado
+      const usuarios = await db('usuarios').select('*').where('email', email);
       
+      res.json(usuarios)
+      return
+
+       
       const token = jwt.sign({ id }, process.env.SECRET, {
         expiresIn: 14400 // Expira em 4 horas
       });

@@ -4,7 +4,8 @@ exports.up = function(knex, Promise) {
 		
 		table.boolean('verificado').notNull().defaultTo(false);
 		table.string('nome').notNull();
-		table.string('email').notNull();
+		table.string('usuario').notNull();
+		table.string('email').notNull().unique();
 		table.string('senha').notNull();
 		table.string('pais').notNull();
 		table.string('codigo', 8).notNull();
