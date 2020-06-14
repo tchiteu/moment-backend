@@ -1,27 +1,42 @@
 const jwt = require('jsonwebtoken');
 const db = require('../database/connection');
+const bcrypt = require ('bcrypt');
 
 module.exports = {
   async login(req, res) {
     const { email, senha } = req.body; 
 
     if(email && senha) {
-      const usuarios = await db('usuarios').select('*').where('email', email);
+      const resultado = await db('usuarios').select('*')
+        .where('email', email);
       
-      res.json(usuarios)
-      return
+      if(!resultado[0]) {
+        return res.status(401).json({
+          message: "E-mail não encontrado.",
+          error: true
+        })
+      } 
 
-       
-      const token = jwt.sign({ id }, process.env.SECRET, {
-        expiresIn: 14400 // Expira em 4 horas
-      });
-      
-      const json = {
-        token: token,
-        message: "Logado com sucesso!"
-      }
+      bcrypt.compare(senha, resultado[0].senha, (err, result) => {
+        if(result) {
+          const id = resultado[0].id;
+          const token = jwt.sign( { id } , process.env.SECRET, {
+            expiresIn: 14400 // Expira em 4 horas
+          });
 
-      res.status(200).send(json);
+          res.status(200).json({
+            token: token,
+            message: "Logado com sucesso!",
+            error: false
+          });          
+        } else {
+          return res.status(401).json({
+            message: "Senha incorreta.",
+            error: true
+          })
+        }
+      })
+
     }
   },
 
