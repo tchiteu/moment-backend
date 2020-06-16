@@ -50,7 +50,7 @@ module.exports = {
   async verificaToken(req, res, next) {
     const token = req.headers['authorization'];
 
-    if(!token) return res.status(401).send({ message: 'No token provided.' });
+    if(!token) return res.status(401).send({ message: 'Nenhum token enviado.' });
 
     jwt.verify(token, process.env.SECRET, function(err, decoded) {
       if(err) return res.status(500).json({

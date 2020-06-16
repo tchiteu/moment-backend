@@ -42,5 +42,16 @@ module.exports = {
     });
 
     return res.json({ codigo });
+  },
+  async busca(req, res) {
+    const { id } = req.params;
+    
+    if(id) {
+      const usuario = await db('usuarios').select().where({ id });
+      res.json(usuario);
+    } else {
+      const usuarios = await db('usuarios').select();
+      res.json(usuarios)
+    }
   }
 }
