@@ -74,6 +74,21 @@ module.exports = {
     } else {
       res.status(204).send();
     };
+  },
 
+  async verificaUsuario(req, res) {
+    const { usuario } = req.params;
+
+    const usuarios = await db('usuarios').select('usuario').where({ usuario });
+
+    if(usuarios[0]) {
+      res.json({
+        existe: true
+      });
+    } else {
+      res.json({
+        existe: false
+      });
+    }
   }
 }

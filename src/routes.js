@@ -12,6 +12,7 @@ routes.post('/login', Auth.login);
 routes.post('/usuarios', UsuarioController.cadastro);
 routes.get('/usuarios', Auth.verificaToken, UsuarioController.busca);
 routes.get('/usuarios/:id', Auth.verificaToken, UsuarioController.buscaId);
+routes.get('/usuarios/verificar-usuario/:usuario', UsuarioController.verificaUsuario);
 
 routes.get('/', Auth.verificaToken, (req, res) => {
     res.status(204).send();
