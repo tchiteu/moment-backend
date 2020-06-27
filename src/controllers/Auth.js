@@ -37,6 +37,11 @@ module.exports = {
         }
       })
 
+    } else {
+      res.status(401).json({
+        error: true,
+        message: "Usuario ou senha não informados."
+      })
     }
   },
 

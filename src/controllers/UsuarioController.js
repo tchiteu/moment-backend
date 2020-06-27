@@ -2,6 +2,8 @@ const db = require('../database/connection');
 const crypto = require('crypto');
 const bcrypt = require ('bcrypt')
 
+const fields = ['id', 'verificado', 'usuario', 'email', 'pais', 'codigo'];
+
 module.exports = {
   async cadastro(req, res) {
     const { nome, usuario, email, pais, senha } = req.body;
@@ -43,15 +45,35 @@ module.exports = {
 
     return res.json({ codigo });
   },
-  async busca(req, res) {
+
+  async buscaId(req, res) {
     const { id } = req.params;
     
     if(id) {
-      const usuario = await db('usuarios').select().where({ id });
-      res.json(usuario);
+      const usuario = await db('usuarios').select(fields).where({ id });
+
+      if(usuario[0]) {
+        res.json(usuario);
+      } else {
+        res.status(204).send();
+      };
+    } 
+  },
+
+  async busca(req, res) {
+    const { usuario } = req.query;
+    
+    if(usuario) { 
+      var usuarios = await db('usuarios').select(fields).where({ usuario });
     } else {
-      const usuarios = await db('usuarios').select();
-      res.json(usuarios)
+      var usuarios = await db('usuarios').select(fields);
     }
+
+    if(usuarios[0]) {
+      res.json(usuarios);
+    } else {
+      res.status(204).send();
+    };
+
   }
 }
