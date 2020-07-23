@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
 	return knex.schema.createTable('usuarios', function(table) {
-		table.string('id').notNull().primary();
+		table.increments('id').notNull().primary();
 		
 		table.boolean('verificado').notNull().defaultTo(false);
 		table.string('nome').notNull();
