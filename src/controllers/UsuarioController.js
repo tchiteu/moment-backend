@@ -1,8 +1,13 @@
 const db = require('../database/connection');
-const crypto = require('crypto');
 const bcrypt = require ('bcrypt')
 
 const fields = ['id', 'verificado', 'usuario', 'email', 'pais', 'codigo'];
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 module.exports = {
   async cadastro(req, res) {
@@ -26,17 +31,15 @@ module.exports = {
       }); 
     }
     
-    const id = crypto.randomBytes(4).toString('HEX');
-    const codigo = Math.floor(Math.random() * 9999);
+    const codigo = getRandomInt(1000,9999);
     
     // Encriptando senha com bcrypt
     const salt = bcrypt.genSaltSync(10);
     const senhaHash = bcrypt.hashSync(senha, salt);
 
     await db('usuarios').insert({
-      id,
       nome,
-      usuario,
+      usuario, 
       email,
       pais,
       senha: senhaHash,
