@@ -10,7 +10,7 @@ function getRandomInt(min, max) {
 }
 
 module.exports = {
-  async cadastro(req, res) {
+  async cadastrar(req, res) {
     const { nome, usuario, email, pais, senha } = req.body;
 
     // Verifica se existe
@@ -49,7 +49,7 @@ module.exports = {
     return res.json({ codigo });
   },
 
-  async buscaId(req, res) {
+  async buscarId(req, res) {
     const { id } = req.params;
     
     if(id) {
@@ -63,7 +63,7 @@ module.exports = {
     } 
   },
 
-  async busca(req, res) {
+  async buscar(req, res) {
     const { usuario } = req.query;
     
     if(usuario) { 
@@ -79,7 +79,7 @@ module.exports = {
     };
   },
 
-  async verificaUsuario(req, res) {
+  async verificarUsuario(req, res) {
     const { usuario } = req.params;
 
     const usuarios = await db('usuarios').select('usuario').where({ usuario });

@@ -52,7 +52,7 @@ module.exports = {
     });
   },
 
-  async verificaToken(req, res, next) {
+  async verificarToken(req, res, next) {
     const token = req.headers['authorization'];
 
     if(!token) return res.status(401).send({ message: 'Nenhum token enviado.' });
