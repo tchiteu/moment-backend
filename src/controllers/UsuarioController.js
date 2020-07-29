@@ -1,5 +1,5 @@
 const db = require('../database/connection');
-const bcrypt = require ('bcrypt')
+const bcrypt = require ('bcrypt');
 
 const fields = ['id', 'verificado', 'usuario', 'email', 'pais', 'codigo'];
 
