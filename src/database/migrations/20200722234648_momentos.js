@@ -3,10 +3,10 @@ exports.up = function(knex) {
   return knex.schema.createTable('momentos', (table) => {
     table.increments('id').unique().primary().unsigned();
     
-    table.string('titulo').notNullable();
-    table.string('descricao').notNullable();
-    table.integer('curtidas').unsigned().defaultTo(0);
-    table.string('caminho_imagem').nullable();
+    table.string('titulo', 25).notNullable();
+    table.string('descricao', 101).notNullable();
+    table.integer('curtidas', 7).unsigned().defaultTo(0);
+    table.string('caminho_imagem', 100).nullable();
 
 		table.dateTime('created_at').defaultTo(knex.fn.now());
 		table.dateTime('updated_at').nullable();

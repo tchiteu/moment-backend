@@ -4,6 +4,14 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 
+function validaPublicacao(titulo, descricao, caminho_imagem) {
+  if(titulo || titulo.length > 28) {
+
+  }
+
+
+}
+
 module.exports = {
   async publicar(req, res) {
     let {titulo, descricao, base64} = req.body;
