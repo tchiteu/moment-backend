@@ -50,8 +50,21 @@ function imagemToBase64(caminho) {
   return new Buffer.from(bitmap).toString('base64');
 }
 
+function preparaMomentos(momentos) {
+  if(momentos[0]) {
+    momentos.map((momento, index) => {
+      let base64 = imagemToBase64(momento.caminho_imagem);
+
+      momentos[index].base64 = base64;
+      delete momentos[index].caminho_imagem;
+    });  
+
+    return momentos;
+  }
+}
+
 module.exports = {
-  async publicar(req, res) {
+  async publicarMomento(req, res) {
     let {titulo, descricao, base64} = req.body;
     let usuario_id = req.userId;
 
@@ -75,18 +88,24 @@ module.exports = {
     return res.status(204).send();
   },
 
-  async buscar(req, res) {
-    // let fields = ['id', 'titulo', 'descricao', 'curtidas', 'created_at', 'usuario_id'];
+  async buscarMomentos(req, res) {
     let momentos = await db('momentos').select();
+    momentos = preparaMomentos(momentos);
+
+    if(momentos && momentos[0]) {
+      res.json(momentos);
+    } else {
+      res.status(204).send();
+    }
+  },
+
+  async buscarMomentosUsuario(req, res) {
+    const { usuario_id } = req.params;
+
+    let momentos = await db('momentos').select().where({ usuario_id });
+    momentos = preparaMomentos(momentos);
     
-    if(momentos[0]) {
-      momentos.map((momento, index) => {
-        let base64 = imagemToBase64(momento.caminho_imagem);
-
-        momentos[index].base64 = base64;
-        delete momentos[index].caminho_imagem;
-      });  
-
+    if(momentos && momentos[0]) {
       res.json(momentos);
     } else {
       res.status(204).send();
