@@ -11,12 +11,15 @@ routes.post('/logout', Auth.logout);
 routes.post('/login', Auth.login);
 routes.post('/usuarios', UsuarioController.cadastrar);
 
+// Usuários
 routes.get('/usuarios', Auth.verificarToken, UsuarioController.buscar);
 routes.get('/usuarios/:id', Auth.verificarToken, UsuarioController.buscarId);
 routes.get('/usuarios/verificar-usuario/:usuario', UsuarioController.verificarUsuario);
 
-routes.post('/momentos', Auth.verificarToken, MomentoController.publicar);
-routes.get('/momentos', Auth.verificarToken, MomentoController.buscar);
+// Momentos
+routes.post('/momentos', Auth.verificarToken, MomentoController.publicarMomento);
+routes.get('/momentos', Auth.verificarToken, MomentoController.buscarMomentos);
+routes.get('/momentos/:usuario_id', Auth.verificarToken, MomentoController.buscarMomentosUsuario);
 
 routes.get('/', Auth.verificarToken, (req, res) => {
     res.status(204).send();
