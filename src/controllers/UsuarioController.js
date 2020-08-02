@@ -49,20 +49,6 @@ module.exports = {
     return res.json({ codigo });
   },
 
-  async buscarId(req, res) {
-    const { id } = req.params;
-    
-    if(id) {
-      const usuario = await db('usuarios').select(fields).where({ id });
-
-      if(usuario[0]) {
-        res.json(usuario);
-      } else {
-        res.status(204).send();
-      };
-    } 
-  },
-
   async buscar(req, res) {
     const { usuario } = req.query;
     
@@ -77,6 +63,20 @@ module.exports = {
     } else {
       res.status(204).send();
     };
+  },
+
+  async buscarId(req, res) {
+    const { id } = req.params;
+    
+    if(id) {
+      const usuario = await db('usuarios').select(fields).where({ id });
+
+      if(usuario[0]) {
+        res.json(usuario);
+      } else {
+        res.status(204).send();
+      };
+    } 
   },
 
   async verificarUsuario(req, res) {

@@ -16,6 +16,7 @@ routes.get('/usuarios/:id', Auth.verificarToken, UsuarioController.buscarId);
 routes.get('/usuarios/verificar-usuario/:usuario', UsuarioController.verificarUsuario);
 
 routes.post('/momentos', Auth.verificarToken, MomentoController.publicar);
+routes.get('/momentos', Auth.verificarToken, MomentoController.buscar);
 
 routes.get('/', Auth.verificarToken, (req, res) => {
     res.status(204).send();

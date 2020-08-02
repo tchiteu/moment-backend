@@ -44,13 +44,18 @@ function salvaImagem(base64, usuario_id) {
   return caminho_imagem;
 }
 
+function imagemToBase64(caminho) {
+  var bitmap = fs.readFileSync(caminho);
+
+  return new Buffer.from(bitmap).toString('base64');
+}
+
 module.exports = {
   async publicar(req, res) {
     let {titulo, descricao, base64} = req.body;
     let usuario_id = req.userId;
 
-    const caminho_imagem = salvaImagem(base64, usuario_id);
-
+    let caminho_imagem = salvaImagem(base64, usuario_id);
     let message = validaPublicacao(titulo, descricao);
     if(message) {
       let json = {
@@ -68,5 +73,23 @@ module.exports = {
     })
 
     return res.status(204).send();
+  },
+
+  async buscar(req, res) {
+    // let fields = ['id', 'titulo', 'descricao', 'curtidas', 'created_at', 'usuario_id'];
+    let momentos = await db('momentos').select();
+    
+    if(momentos[0]) {
+      momentos.map((momento, index) => {
+        let base64 = imagemToBase64(momento.caminho_imagem);
+
+        momentos[index].base64 = base64;
+        delete momentos[index].caminho_imagem;
+      });  
+
+      res.json(momentos);
+    } else {
+      res.status(204).send();
+    }
   }
 }
