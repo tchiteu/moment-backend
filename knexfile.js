@@ -33,7 +33,7 @@ module.exports = {
     },
     pool: {
       afterCreate: function(connection, callback) {
-        connection.query("SET @@global.time_zone = '+3:00';", function(err) {
+        connection.query("SET @@global.time_zone = '-3:00';", function(err) {
           callback(err, connection);
         });
       }

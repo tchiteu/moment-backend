@@ -47,8 +47,14 @@ module.exports = {
 
   async logout(req, res) {
     const token = req.headers['authorization'];
+    if(!token) return res.status(401).send({ 
+      message: 'Nenhum token enviado.' 
+    });
 
-    if(!token) return res.status(401).send({ message: 'Nenhum token enviado.' });
+    const blacklist_token = await db('blacklist').select('token').where('token', token);
+    if(blacklist_token[0]) return res.status(401).send({
+      message: 'Token inválido.'
+    })
 
     jwt.verify(token, process.env.SECRET, async function(err, decoded) {
       if(err) return res.status(500).json({
