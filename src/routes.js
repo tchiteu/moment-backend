@@ -7,11 +7,13 @@ const MomentoController = require('./controllers/MomentoController.js');
 
 // Rotas
 const routes = express.Router();
+
+// Auth
 routes.post('/logout', Auth.logout);
 routes.post('/login', Auth.login);
-routes.post('/usuarios', UsuarioController.cadastrar);
 
 // Usuários
+routes.post('/usuarios', UsuarioController.cadastrar);
 routes.get('/usuarios', Auth.verificarToken, UsuarioController.buscar);
 routes.get('/usuarios/:id', Auth.verificarToken, UsuarioController.buscarId);
 routes.get('/usuarios/verificar-usuario/:usuario', UsuarioController.verificarUsuario);
