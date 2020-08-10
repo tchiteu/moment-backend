@@ -46,6 +46,25 @@ module.exports = {
   },
 
   async logout(req, res) {
+    const token = req.headers['authorization'];
+
+    if(!token) return res.status(401).send({ message: 'Nenhum token enviado.' });
+
+    jwt.verify(token, process.env.SECRET, async function(err, decoded) {
+      if(err) return res.status(500).json({
+        auth: false,
+        message: 'Falha ao autenticar o token.'
+      });
+      
+      const usuario_id = decoded.id;
+
+      // Salva o token na Blacklist
+      await db('blacklist').insert({
+        token,
+        usuario_id
+      })
+    });
+    
     res.status(200).json({
       message: "Deslogado com sucesso!", 
       token: null
