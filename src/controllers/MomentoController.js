@@ -27,7 +27,7 @@ function salvaImagem(base64, usuario_id) {
 
   const caminho_diretorio = `${process.env.IMAGE_PATH}/${usuario_id}` 
   const nome_imagem = `${currentDate.getTime()}.png`;
-  const caminho_imagem = caminho_diretorio + nome_imagem;
+  const caminho_imagem = `${caminho_diretorio}/${nome_imagem}`;
   
   fs.mkdir(caminho_diretorio, {recursive: true}, (err) => {
     if(err) {
@@ -45,19 +45,37 @@ function salvaImagem(base64, usuario_id) {
 }
 
 function imagemToBase64(caminho) {
-  var bitmap = fs.readFileSync(caminho);
+  try {
+    var bitmap = fs.readFileSync(caminho);
+  } catch(err) {
+    return false;
+  }
 
   return new Buffer.from(bitmap).toString('base64');
 }
 
 function preparaMomentos(momentos) {
   if(momentos[0]) {
-    momentos.map((momento, index) => {
-      let base64 = imagemToBase64(momento.caminho_imagem);
+    var i = momentos.length;
 
-      momentos[index].base64 = base64;
-      delete momentos[index].caminho_imagem;
-    });  
+    while (i--) {
+      let momento = momentos[i];
+
+      let base64 = imagemToBase64(momento.caminho_imagem);
+      
+      if(base64) {
+        momentos[i] = {
+          id: momento.id,
+          titulo: momento.titulo,
+          descricao: momento.descricao,
+          curtidas: momento.curtidas,
+          usuario_id: momento.usuario_id,
+          base64
+        }
+      } else {
+        momentos.splice(i, 1);
+      }
+    }
 
     return momentos;
   }
