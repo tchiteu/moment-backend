@@ -31,11 +31,11 @@ function salvaImagem(base64, usuario_id) {
   
   fs.mkdir(caminho_diretorio, {recursive: true}, (err) => {
     if(err) {
-      console.log(err);
+      console.error(err);
     } else {
       fs.writeFile(caminho_imagem, base64, 'base64', (err) => {
         if(err) {
-          console.log(err);
+          console.error(err);
         }
       });
     }
@@ -87,7 +87,8 @@ function preparaMomentos(momentos) {
 module.exports = {
   async publicarMomento(req, res) {
     let {titulo, descricao, base64} = req.body;
-    let usuario_id = req.userId;
+    let usuario_id = req.usuario_id;
+    let usuario = req.usuario;
 
     let caminho_imagem = salvaImagem(base64, usuario_id);
     let message = validaPublicacao(titulo, descricao);
@@ -103,7 +104,8 @@ module.exports = {
       titulo,
       descricao,
       caminho_imagem,
-      usuario_id
+      usuario_id,
+      usuario
     })
 
     return res.status(204).send();

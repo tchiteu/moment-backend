@@ -11,5 +11,7 @@ app.use(routes);
 
 const port = process.env.PORT || 3000;
 
-console.log(`[SERVIDOR]: Rodando na porta ${port}`)
+console.info(`[SERVIDOR]: Rodando na porta ${port}`);
+process.on('SIGINT', () => { console.info("Até mais!"); process.exit(); });
+
 app.listen(process.env.PORT || 3000);
