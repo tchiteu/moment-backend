@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.increments('id').unique().primary().unsigned();
     
     table.string('titulo', 25).notNullable();
+    table.string('usuario', 16).notNullable();
     table.string('descricao', 101).notNullable();
     table.integer('curtidas', 7).unsigned().defaultTo(0);
     table.string('caminho_imagem', 100).nullable();
