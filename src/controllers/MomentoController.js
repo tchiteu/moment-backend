@@ -64,6 +64,8 @@ function preparaMomentos(momentos) {
       let base64 = imagemToBase64(momento.caminho_imagem);
       
       if(base64) {
+        base64 = `data:image/png;base64,${base64}`;
+
         momentos[i] = {
           id: momento.id,
           titulo: momento.titulo,
@@ -72,7 +74,8 @@ function preparaMomentos(momentos) {
           usuario_id: momento.usuario_id,
           base64
         }
-      } else {
+      } 
+      else {
         momentos.splice(i, 1);
       }
     }
